@@ -1,0 +1,36 @@
+//-------------------------API-USERS-------------------------
+db = db.getSiblingDB('api-users');
+
+try {
+    db.createUser({
+      user: "api",
+      pwd: "{{db-pswd}}",
+      roles: [ "readWrite" ]
+    });
+
+} catch(err) {
+    print(err.message);
+}
+
+db.createCollection('users');
+db.users.createIndex({ email: 1 }, { unique: true });
+
+//-------------------------API-AUTH-------------------------
+db = db.getSiblingDB('api-auth');
+
+try {
+    db.createUser({
+      user: "api",
+      pwd: "{{db-pswd}}",
+      roles: [ "readWrite" ]
+    });
+
+} catch(err) {
+    print(err.message);
+}
+
+db.createCollection('users');
+db.users.createIndex({ email: 1, clientId: 1 }, { unique: true });
+
+db.createCollection('tokens');
+db.tokens.createIndex({ accessToken: 1 });
